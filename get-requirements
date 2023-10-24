@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+from os import system as ex, getcwd
+from os.path import join
+
+currentDirectory = getcwd()
+req = join(currentDirectory, 'main', 'requirements.txt')
+ex(f'pip install -r {req}')
