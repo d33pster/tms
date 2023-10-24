@@ -179,6 +179,7 @@ def main(rule):
     tms(rule)
 
 if __name__=='__main__':
+    clean()
     print('Turing Machine Sim')
     rule = input("Enter rule: ")
     main(rule)

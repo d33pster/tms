@@ -1,0 +1,4 @@
+pillow
+pyinstaller
+tk
+tcl
