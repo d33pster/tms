@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+# import modules
+from time import sleep
+from os import system, getcwd, chdir, remove, mkdir
+from os.path import join, exists, expanduser
+from os import name as n
+from shutil import rmtree, copyfile
+from platform import system as getsys
+
+# get directory info 
+currentDirectory = getcwd()
+mainDirectory = join(currentDirectory, 'main')
+home = expanduser('~')
+local_bin = join(home, '.local-bin')
+copySrc1 = join(mainDirectory, 'dist', 'tms-simple')
+DestSrc1 = join(local_bin, 'tms-simple')
+copySrc2 = join(mainDirectory, 'dist', 'tms')
+DestSrc2 = join(local_bin, 'tms')
+copySrc3 = join(mainDirectory, 'dist', 'tms-cli')
+DestSrc3 = join(local_bin, 'tms-cli')
+if not getsys() == 'Windows':
+    # check for .local-bin in Linux and macOS
+    if not exists(local_bin):
+        mkdir(local_bin)
+        system(f"echo \'export PATH=$PATH:{local_bin}\' >> ~/.zshrc")
+
+#change dir
+chdir(mainDirectory)
+
+# clear screen
+system('cls') if 'nt' in n else system("clear")
+
+# Install tms-simple...
+print('Installing tms-simple ... ', end='')
+sleep(1)
+print('\n')
+system('pyinstaller --onefile tms-simple.py --windowed -i pp-app.ico')
+rmtree(join(mainDirectory,'build'))
+remove(join(mainDirectory, 'tms-simple.spec'))
+if not getsys() == 'Windows':
+    copyfile(copySrc1, DestSrc1)
+
+# Install tms...
+print('\nInstalling tms ...', end='')
+sleep(1)
+print('\n')
+system('pyinstaller --onefile tms.py --windowed -i pp-app.ico')
+rmtree(join(mainDirectory,'build'))
+remove(join(mainDirectory, 'tms.spec'))
+if not getsys() == 'Windows':
+    copyfile(copySrc2, DestSrc2)
+
+#Install tms-cli ...
+print('\nInstalling tms-cli ...', end='')
+sleep(1)
+print('\n')
+system('pyinstaller --onefile tms-cli.py -i pp-app.ico')
+rmtree(join(mainDirectory,'build'))
+remove(join(mainDirectory, 'tms-cli.spec'))
+if not getsys() == 'Windows':
+    copyfile(copySrc3, DestSrc3)
+    rmtree(join(mainDirectory, 'dist'))
+    system(f'chmod a+x {DestSrc1} {DestSrc2} {DestSrc3}')
+
+print('\n --> SuccessFully Installed tms-simple, tms and tms-cli')
