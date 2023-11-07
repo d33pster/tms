@@ -61,8 +61,8 @@ class tms(Tk):
                     if temp == ')':
                         self.is_bracket = 1
                         continue
-            elif char == '^':
-                index_up = rule.find('^')
+            elif char == '*':
+                index_up = rule.find('*')
                 index_bracket = rule.find(')')
             
                 if index_up < index_bracket:
@@ -79,19 +79,19 @@ class tms(Tk):
             messagebox.askretrycancel('Invalid Rule', f'\'{rule}\' has Syntax Error!')
             self.handleRuleError()
         
-        #case 1 - consecutive abc(ef)^gh
+        #case 1 - consecutive abc(ef)*gh
         if self.is_up == 1 and self.is_bracket == 1 and self.is_consecutive == 1:
-            # code for both () and ^ in consecutive order
+            # code for both () and * in consecutive order
             for i in range(len(rule)):
                 if rule[i] == '(':
                     self.stringBeforeBracket = self.parse_before(rule, i)
                     self.stringBetweenBracket = self.parse_between(rule, rule.find('(') + 1, rule.find(')'))
-                    self.stringAfterUp = self.parse_after(rule, rule.find('^') + 1)
+                    self.stringAfterUp = self.parse_after(rule, rule.find('*') + 1)
                     # case1_checker(rule, stringBeforeBracket, stringBetweenBracket, stringAfterUp)
                     self.case1 = 1
                     self.checkEntryPassed()
         elif self.is_up == 1 and self.is_bracket == 0:
-            # code for checking just ^
+            # code for checking just *
             
             self.up = 1
             self.checkEntryPassed()
@@ -165,7 +165,7 @@ class tms(Tk):
         
         if self.up==1 and self.case1==0:
             for i in range(len(rule)):
-                if rule[i]=='^':
+                if rule[i]=='*':
                     temp = self.parse_before(rule, i-1)
                     self.up_checker(rule, temp, string)
         elif self.up==0 and self.case1==1:

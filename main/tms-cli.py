@@ -42,7 +42,7 @@ def parse_after(rule, index):
     
     return string
 
-# ^ checker - single
+# * checker - single
 def up_checker(rule, string):
     string_len = len(string)
 
@@ -145,8 +145,8 @@ def tms(rule):
                 if temp == ')':
                     is_bracket = 1
                     continue
-        elif char == '^':
-            index_up = rule.find('^')
+        elif char == '*':
+            index_up = rule.find('*')
             index_bracket = rule.find(')')
             
             if index_up < index_bracket:
@@ -158,19 +158,19 @@ def tms(rule):
             elif index_up > index_bracket:
                 is_up = 1
         
-    #case 1 - consecutive abc(ef)^gh
+    #case 1 - consecutive abc(ef)*gh
     if is_up == 1 and is_bracket == 1 and is_consecutive == 1:
-        # code for both () and ^ in consecutive order
+        # code for both () and * in consecutive order
         for i in range(len(rule)):
             if rule[i] == '(':
                 stringBeforeBracket = parse_before(rule, i)
                 stringBetweenBracket = parse_between(rule, rule.find('(') + 1, rule.find(')'))
-                stringAfterUp = parse_after(rule, rule.find('^') + 1)
+                stringAfterUp = parse_after(rule, rule.find('*') + 1)
                 case1_checker(rule, stringBeforeBracket, stringBetweenBracket, stringAfterUp)
     elif is_up == 1 and is_bracket == 0:
-        # code for checking just ^
+        # code for checking just *
         for i in range(len(rule)):
-            if rule[i] == '^':
+            if rule[i] == '*':
                 string = parse_before(rule, i-1)
                 up_checker(rule, string)   
     
