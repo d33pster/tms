@@ -19,6 +19,6 @@ Contains Turing Machine Simulator using Python
 3. ```./tms``` (custom language can be defined) - GUI
 4. ```./tms-cli``` (custom language can be defined)
 5. Currently Following Language type is supported
-6. ```a^``` (string of the type 'aaaaaaaaaa...') or ```ab^``` (string of the type 'abbbbbbb....')
-7. ```abc(def)^gh``` (abcdefdefdef...gh) or ```(abc)^de``` (abcabcabc...de) or ```abc(def)^``` (abcdefdefdef....)
+6. ```a*``` (string of the type 'aaaaaaaaaa...') or ```ab*``` (string of the type 'abbbbbbb....')
+7. ```abc(def)*gh``` (abcdefdefdef...gh) or ```(abc)*de``` (abcabcabc...de) or ```abc(def)*``` (abcdefdefdef....)
 8. more will be added!
