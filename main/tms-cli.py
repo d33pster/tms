@@ -80,6 +80,22 @@ def up_checker(rule, string):
     
     print("Language Supported.")
 
+def multStar(rule, infinit):
+    to_check = input("Enter String: ")
+    to_check_len = len(to_check)
+    
+    check1 = 0
+    state = 0
+    
+    for char in rule:
+        for repeat in infinit:
+            if char==repeat:
+                state=1
+                break
+            
+                
+                
+
 def case1_checker(rule, start, repeat, end):
     start_len = len(start)
     repeat_len = len(repeat)
@@ -132,6 +148,7 @@ def case1_checker(rule, start, repeat, end):
     
     print("Language Supported")
 
+
 def tms(rule):
     
     #check for keywords first
@@ -143,12 +160,12 @@ def tms(rule):
         if char == '(':
             for temp in rule:
                 if temp == ')':
-                    is_bracket = 1
-                    continue
+                    is_bracket = is_bracket + 1 # increment if found more
+                    break # if match found break the 2nd loop
         elif char == '*':
             index_up = rule.find('*')
             index_bracket = rule.find(')')
-            
+            # if * comes before ()
             if index_up < index_bracket:
                 print("Rule not Supported yet")
                 sys.exit(0)
@@ -157,8 +174,15 @@ def tms(rule):
                 is_consecutive = 1
             elif index_up > index_bracket:
                 is_up = 1
-        
-    #case 1 - consecutive abc(ef)*gh
+    
+    # checking multiple *
+    if is_up == 1:
+        is_up = 0
+        for char in rule:
+            if char == "*":
+                is_up = is_up + 1
+                      
+    #case 1 - consecutive abc(ef)*gh -> this works for abc(def)*, (def)*, (def)*gh
     if is_up == 1 and is_bracket == 1 and is_consecutive == 1:
         # code for both () and * in consecutive order
         for i in range(len(rule)):
@@ -168,12 +192,19 @@ def tms(rule):
                 stringAfterUp = parse_after(rule, rule.find('*') + 1)
                 case1_checker(rule, stringBeforeBracket, stringBetweenBracket, stringAfterUp)
     elif is_up == 1 and is_bracket == 0:
-        # code for checking just *
+        # code for checking just * -> simple abc*
         for i in range(len(rule)):
             if rule[i] == '*':
                 string = parse_before(rule, i-1)
-                up_checker(rule, string)   
-    
+                up_checker(rule, string)
+    elif is_up > 1:
+        # for multiple *
+        infinit = []
+        for i in range(len(rule)):
+            if rule[i] == "*":
+                infinit.append(rule[i-1])
+
+
 def main(rule):
     clean()
     tms(rule)
